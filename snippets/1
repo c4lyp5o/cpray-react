@@ -1,0 +1,328 @@
+// const App = () => {
+//   const [data, setData] = useState(null);
+
+//   useEffect(() => {
+//     fetch("https://jsonplaceholder.typicode.com/todos")
+//       .then((res) => res.json())
+//       .then((data) => setData(data));
+//  }, []);
+
+//   return (
+//     <>
+//       {data &&
+//         data.map((item) => {
+//           return <p key={item.id}>{item.title}</p>;
+//         })}
+//     </>
+//   );
+// };
+
+// const App = () => {
+//   const [count, setCount] = useState(0);
+//   const [todos, setTodos] = useState([]);
+//   const calculation = useMemo(() => expensiveCalculation(count), [count]);
+
+//   const increment = () => {
+//     setCount((c) => c + 1);
+//   };
+//   const addTodo = () => {
+//     setTodos((t) => [...t, "New Todo"]);
+//   };
+
+//   return (
+//     <div>
+//       <div>
+//         <h2>My Todos</h2>
+//         {todos.map((todo, index) => {
+//           return <p key={index}>{todo}</p>;
+//         })}
+//         <button onClick={addTodo}>Add Todo</button>
+//       </div>
+//       <hr />
+//       <div>
+//         Count: {count}
+//         <button onClick={increment}>+</button>
+//         <h2>Expensive Calculation</h2>
+//         {calculation}
+//       </div>
+//     </div>
+//   );
+// };
+
+// const expensiveCalculation = (num) => {
+//   console.log("Calculating...");
+//   for (let i = 0; i < 1000000000; i++) {
+//     num += 1;
+//   }
+//   return num;
+// };
+
+// const App = () => {
+//   const [count, setCount] = useState(0);
+//   const [todos, setTodos] = useState([]);
+
+//   const increment = () => {
+//     setCount((c) => c + 1);
+//   };
+//   const addTodo = useCallback(() => {
+//     setTodos((t) => [...t, "New Todo"]);
+//   }, [todos]);
+
+//   return (
+//     <>
+//       <Todos todos={todos} addTodo={addTodo} />
+//       <hr />
+//       <div>
+//         Count: {count}
+//         <button onClick={increment}>+</button>
+//       </div>
+//     </>
+//   );
+// };
+
+// function App() {
+//   const [inputValue, setInputValue] = useState("");
+//   const previousInputValue = useRef("");
+
+//   useEffect(() => {
+//     previousInputValue.current = inputValue;
+//   }, [inputValue]);
+
+//   return (
+//     <>
+//       <input
+//         type="text"
+//         value={inputValue}
+//         onChange={(e) => setInputValue(e.target.value)}
+//       />
+//       <h2>Current Value: {inputValue}</h2>
+//       <h2>Previous Value: {previousInputValue.current}</h2>
+//     </>
+//   );
+// }
+
+// function App() {
+//   const inputElement = useRef();
+
+//   const focusInput = () => {
+//     inputElement.current.focus();
+//   };
+
+//   return (
+//     <>
+//       <input type="text" ref={inputElement} />
+//       <button onClick={focusInput}>Focus Input</button>
+//     </>
+//   );
+// }
+
+// function App() {
+//   const [inputValue, setInputValue] = useState("");
+//   const count = useRef(0);
+
+//   useEffect(() => {
+//     count.current = count.current + 1;
+//   });
+
+//   return (
+//     <>
+//       <input
+//         type="text"
+//         value={inputValue}
+//         onChange={(e) => setInputValue(e.target.value)}
+//       />
+//       <h1>Render Count: {count.current}</h1>
+//     </>
+//   );
+// }
+
+// const UserContext = createContext()
+
+// function Component1() {
+//   const [user, setUser] = useState("Jesse Hall");
+
+// function Component2() {
+//   return (    
+//     <h1>{`Hello ${user}!`}</h1>    
+//   );
+// }
+
+// function Component3() {
+//   return (
+//     <p>{`Puasa jangan x puasa ya ${user}!`}</p>
+//   )
+// }
+
+//   return (
+//     <UserContext.Provider value={user}>
+//       <h1>{`Hello ${user}!`}</h1>
+//       <Component2 user={user} />
+//       <Component3 user={user} />
+//     </UserContext.Provider>
+//   );
+// }
+
+// function Counter() {
+//   const [count, setCount] = useState(0);
+//   const [calculation, setCalculation] = useState(0);
+
+//   useEffect(() => {
+//     setCalculation(() => count * 2);
+//   }, [count]); // <- add the count variable here
+
+//   return (
+//     <>
+//       <p>Count: {count}</p>
+//       <button onClick={() => setCount((c) => c + 1)}>+</button>
+//       <p>Calculation: {calculation}</p>
+//     </>
+//   );
+// }
+
+// function Timer() {
+//   const [count, setCount] = useState(0);
+
+//   useEffect(() => {
+//     setTimeout(() => {
+//       setCount((count) => count + 1);
+//     }, 1000);
+//   },[]);
+
+//   return <h1>I've rendered {count} times!</h1>;
+// }
+
+
+// function Car() {
+//   const [car, setCar] = useState({
+//     brand: "Ford",
+//     model: "Mustang",
+//     year: "1964",
+//     color: "red"
+//   });
+
+//   const updateColor = () => {
+//     setCar(previousState => {
+//       return { ...previousState, color: "blue" }
+//     });
+//   }
+
+//   return (
+//     <>
+//       <h1>My {car.brand}</h1>
+//       <p>
+//         It is a {car.color} {car.model} from {car.year}.
+//       </p>
+//       <button
+//         type="button"
+//         onClick={updateColor}
+//       >Blue</button>
+//     </>
+//   )
+// }
+
+// function FavoriteColor() {
+//   const [color, setColor] = useState("red");
+
+//   return (
+//     <>
+//       <h1>My favorite color is {color}!</h1>
+//       <button
+//         type="button"
+//         onClick={() => setColor("blue")}
+//       >Blue</button>
+//       <button
+//         type="button"
+//         onClick={() => setColor("red")}
+//       >Red</button>
+//       <button
+//         type="button"
+//         onClick={() => setColor("zoinks!")}
+//       >Pink</button>
+//       <button
+//         type="button"
+//         onClick={() => setColor("green")}
+//       >Green</button>
+//     </>
+//   );
+// }
+
+// const App = () => {
+//   const [count, setCount] = useState(0);
+//   const [todos, setTodos] = useState(["todo 1", "todo 2"]);
+
+//   const increment = () => {
+//     setCount((c) => c + 1);
+//   };
+
+//   return (
+//     <>
+//       <Todos todos={todos} />
+//       <hr />
+//       <div>
+//         Count: {count}
+//         <button onClick={increment}>+</button>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default function App() {
+//   return (
+//     <BrowserRouter>
+//       <Routes>
+//           <Route path="/" element={<Layout />}>
+//           <Route index element={<Home />} />
+//           <Route path="blogs" element={<Blogs />} />
+//           <Route path="contact" element={<Contact />} />
+//           <Route path="*" element={<Fourohfour />} />
+//         </Route>
+//       </Routes>
+//     </BrowserRouter>
+//   );
+// }
+
+// function MyForm() {
+//   const whatsMyCarNow = () => {
+//     console.log(myCar);
+//   }
+  
+//   const [popoverOpen, setPopoverOpen] = useState(false);
+//   const togglePopover = () => setPopoverOpen(!popoverOpen);
+//   return (
+//     <div>
+//       <Button id="mypopover" onClick={togglePopover}>
+//         Click me to see a popover
+//       </Button>
+//       <Popover
+//         placement="bottom"
+//         isOpen={popoverOpen}
+//         target="mypopover"
+//         toggle={togglePopover}
+//       >
+//         <PopoverHeader>This is popover title</PopoverHeader>
+//         <PopoverBody>
+//           This is simple popover content
+//         </PopoverBody>
+//       </Popover>
+//     </div>
+//   );
+// }
+
+//   const [myCar, setMyCar] = useState("Volvo");
+
+//   whatsMyCarNow();
+
+//   const handleChange = (event) => {
+//     setMyCar(event.target.value)
+//   }
+
+//   return (
+//     <form>
+//       <select value={myCar} onChange={handleChange}>
+//         <option value="Ford">Ford</option>
+//         <option value="Volvo">Volvo</option>
+//         <option value="Fiat">Fiat</option>
+//       </select>
+//     </form>
+//   )
+// }
