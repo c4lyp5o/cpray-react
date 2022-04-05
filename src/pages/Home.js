@@ -22,7 +22,7 @@ function Home() {
   function TheIntro() {
     if (intro === true) {
       return (
-      <p1>Assalamualaikum</p1>
+        <p1>Assalamualaikum</p1>
       );
     }
   }
@@ -31,6 +31,9 @@ function Home() {
     if (display) {
       return (
         <>
+          <div class='zoneName'>
+            <h1>{zone}</h1>
+          </div>
         <table>
           <thead>
             <tr>
@@ -155,7 +158,7 @@ function Home() {
                 <option value="wly02">Labuan</option>
               </optgroup>
             </select><br />
-            <button type="submit" role="button" value="Submit">Pilih</button>
+            <button type="submit" value="Submit">Pilih</button>
           </form>
         </div>
         <div></div>

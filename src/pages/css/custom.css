@@ -1,0 +1,26 @@
+@font-face {
+    font-family: 'Amiri';
+    src: local('Amiri-Regular'), url(./fonts/Amiri-Regular.ttf) format('truetype');
+    src: local('Amiri-Bold'), url(./fonts/Amiri-Bold.ttf) format('truetype');
+    src: local('Amiri-Italic'), url(./fonts/Amiri-Italic.ttf) format('truetype');
+    src: local('Amiri-BoldItalic'), url(./fonts/Amiri-BoldItalic.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    /* font-display: swap; */
+    /* other formats include: 'woff2', 'truetype, 'opentype',
+                              'embedded-opentype', and 'svg' */
+  }
+
+.zoneName {
+    text-align: center;
+}
+
+.quranAyats {
+    text-align: center;
+}
+
+.arabic {
+    font-size: normal;
+    font-family: 'Amiri', serif;
+    word-spacing: 0em;
+}

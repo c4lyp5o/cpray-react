@@ -1,18 +1,27 @@
 import { useState } from 'react';
 import { getTheQuran, giveTheQuran } from './getTimes';
-import { TheIntro } from './Home';
 
 function Quran() {
   
+  const [intro, setIntro] = useState(true);
   const [surah, setSurah] = useState([]);
   const [search, setSearch] = useState("");
   const [quran, setQuran] = useState([]);
   const [display, setDisplay] = useState(false);
 
+  const TheIntro = () => {
+    if (intro === true) {
+      return (
+      <p1>Assalamualaikum</p1>
+      );
+    }
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
     await giveTheQuran(search).then(data => {
       setDisplay(true);
+      setIntro(false);
       setQuran(data);
     });
   }
@@ -34,9 +43,10 @@ function Quran() {
       return (
         <>
           {quran.map((ayats, index) => (
-            <div key={index}>
-              <h2>{ayats.text}</h2>
-              <kbd>{ayats.translation}</kbd>
+            <div class='quranAyats' key={index}>
+              <h3 class='arabic'>{ayats.text}</h3>
+              <p>{ayats.translation}</p>
+              <br />
             </div>
           ))}
         </>
@@ -55,7 +65,7 @@ function Quran() {
                 <option key={index} value={index}>{thesurah}</option>
               ))}
             </select>
-            <button type="submit" role="button" value="Submit">Pilih</button> 
+            <button type="submit" value="Submit">Pilih</button> 
           </form>
         </div>
         <div />
@@ -63,8 +73,9 @@ function Quran() {
         <div>
           <h1>Al Quran</h1>
         </div>
-      {Surah(quran)}
       </div>
+      {Surah(quran)}
+      {TheIntro()}
     </main>
   );
 }

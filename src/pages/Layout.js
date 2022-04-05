@@ -1,5 +1,6 @@
 import { Outlet, Link } from "react-router-dom";
 import './css/pico.min.css';
+import './css/custom.css';
 
 const Layout = () => {
   return (
