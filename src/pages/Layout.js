@@ -15,6 +15,9 @@ const Layout = () => {
               <Link to="/quran">Quran</Link>
             </li>
             <li>
+              <Link to="/hadith">Hadith</Link>
+            </li>
+            <li>
               <Link to="/contact">Contact</Link>
             </li>
           </ul>

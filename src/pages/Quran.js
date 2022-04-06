@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { getTheQuran, giveTheQuran } from './getTimes';
+import { useState, useEffect } from 'react';
+import { getTheQuran, giveTheQuran, giveQuranAudio } from './getTimes';
 
 function Quran() {
   
@@ -8,17 +8,21 @@ function Quran() {
   const [search, setSearch] = useState("");
   const [quran, setQuran] = useState([]);
   const [display, setDisplay] = useState(false);
+  const [audio, setAudio] = useState([]);
 
-  const TheIntro = () => {
+  useEffect(() => { document.title = "Al-Quran" }, []);
+
+  function TheIntro() {
     if (intro === true) {
       return (
-      <p1>Assalamualaikum</p1>
+        <p>Assalamualaikum</p>
       );
     }
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
+    await giveQuranAudio(search).then(data => { setAudio(data) });
     await giveTheQuran(search).then(data => {
       setDisplay(true);
       setIntro(false);
@@ -31,9 +35,9 @@ function Quran() {
       setSearch(event.target.value);
       return;
     } else if (surah.length === 0) {
-      setSearch(event.target.value);
       await getTheQuran().then(data => {
         setSurah(data);
+      setSearch(event.target.value);
       });
     }
   }
@@ -43,9 +47,10 @@ function Quran() {
       return (
         <>
           {quran.map((ayats, index) => (
-            <div class='quranAyats' key={index}>
-              <h3 class='arabic'>{ayats.text}</h3>
+            <div className='quranAyats' key={index}>
+              <h3 className='quranic'>{ayats.text} ({index + 1})</h3>
               <p>{ayats.translation}</p>
+              <audio key={index} controls><source src={audio[index].audio.primary} /></audio>
               <br />
             </div>
           ))}
@@ -56,13 +61,13 @@ function Quran() {
 
   return (
     <main className="container">
-    <div class="grid">
+    <div className="grid">
         <div>
           <form onSubmit={handleSubmit}>
             <select onClick={handleClick} id="surah" required="" name="surah">
               <option value="">Sila pilih surah...</option>
               {surah.map((thesurah, index) => (
-                <option key={index} value={index}>{thesurah}</option>
+                <option key={index} value={index}>{thesurah.transliteration}</option>
               ))}
             </select>
             <button type="submit" value="Submit">Pilih</button> 
@@ -74,7 +79,7 @@ function Quran() {
           <h1>Al Quran</h1>
         </div>
       </div>
-      {Surah(quran)}
+      <div>{Surah(quran)}</div>
       {TheIntro()}
     </main>
   );

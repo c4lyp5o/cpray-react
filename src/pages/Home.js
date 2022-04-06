@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getTimes, timeCruncher, zoneDeterminer } from "./getTimes";
 
 function Home() {
 
+  const [click, setClick] = useState(false);
   const [search, setSearch] = useState("");
   const [times, setTimes] = useState([]);
   const [zone, setZone] = useState("");
   const [display, setDisplay] = useState(false);
   const [intro, setIntro] = useState(true);
+
+  useEffect(() => { document.title = "Waktu Solat" }, []);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -15,14 +18,23 @@ function Home() {
       setZone(zoneDeterminer(search));
       setDisplay(true);
       setIntro(false);
-      setTimes(timeCruncher(data));     
+      if (click === false) {
+        setTimes(timeCruncher(data));
+        setClick(true);
+      } else if (click === true) {
+        return;
+      }   
     });
+  }
+
+  async function handleChange(event) {
+    setSearch(event.target.value);
   }
 
   function TheIntro() {
     if (intro === true) {
       return (
-        <p1>Assalamualaikum</p1>
+        <p>Assalamualaikum</p>
       );
     }
   }
@@ -31,7 +43,7 @@ function Home() {
     if (display) {
       return (
         <>
-          <div class='zoneName'>
+          <div className='centered'>
             <h1>{zone}</h1>
           </div>
         <table>
@@ -66,10 +78,10 @@ function Home() {
 
   return (
     <main className="container">
-      <div class="grid">
+      <div className="grid">
         <div>
           <form onSubmit={handleSubmit}>
-            <select onChange={(e) => setSearch(e.target.value)} id="zone" required="" name="zone">
+            <select onChange={handleChange} id="zone" required="" name="zone">
               <option value="">Sila pilih zon...</option>
               <optgroup label="Kedah">
                 <option value="kdh01">KOTA SETAR, POKOK SENA DAN KUBANG PASU</option>
@@ -167,7 +179,7 @@ function Home() {
           <h1>Waktu Solat</h1>
         </div>
       </div>
-      <p>{TheIntro()}</p>
+      {TheIntro()}
       {displayTimes(times)}
     </main>
   );

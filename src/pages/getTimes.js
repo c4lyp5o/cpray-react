@@ -68,17 +68,16 @@ const zoneReplace = {
 export async function getTimes(search) {
   if (myCache.has(search)) {
     console.log("using cache");
-    return myCache.get(search);
   } else {
     try {
       let response = await fetch(`https://www.e-solat.gov.my/index.php?r=esolatApi/takwimsolat&period=year&zone=${search}`);
       let data = await response.json();
       myCache.set(search, data.prayerTime, ttl);
       console.log("fetching and caching");
-      return data.prayerTime;
     } catch (error) {
       console.log(error);
     }
+    return myCache.get(search);
   }
 }
 
@@ -96,7 +95,6 @@ export function zoneDeterminer(zone) {
 }
 
 export async function getTheQuran() {
-  let nama2Surah = [];
   if (myCache.has('fullQuran')) {
     console.log("quran is in cache");
   } else {
@@ -109,10 +107,7 @@ export async function getTheQuran() {
     }
   }
   const quranAyat = await myCache.get('fullQuran');
-  await quranAyat.forEach((index) => {
-    nama2Surah.push(index.transliteration);
-  });
-  return nama2Surah;
+  return quranAyat;
 }
 
 export async function giveTheQuran(surah) {
@@ -120,16 +115,51 @@ export async function giveTheQuran(surah) {
   return quranAyat[surah].verses;
 }
 
-export async function getTheSurah() {
-  const quranSurah = await myCache.get('fullQuran');
-  let surah = [];
+export async function giveQuranAudio(surah) {
   try {
-    quranSurah.forEach((number, index) => {
-      surah.push(quranSurah[index].transliteration);
-  });
-  console.log(surah);
-    return surah;
+    surah++;
+    const audio = await fetch(`https://api.quran.sutanlab.id/surah/${surah}`, {
+      crossDomain:true,
+      method: 'GET',
+    });
+    myCache.set('quranAudio', audio.json(), ttl);
   } catch (error) {
     console.log(error);
   }
+  const audio = await myCache.get('quranAudio');
+  return audio.data.verses;
+}
+
+export async function getTheKeetab() {
+  try {
+    const keetab = await fetch('https://api.hadith.sutanlab.id/books', {
+      crossDomain:true,
+      method: 'GET',
+    });
+    myCache.set('keetab', keetab.json(), ttl);
+  } catch (error) {
+    console.log(error);
+  }
+  const keetab = await myCache.get('keetab');
+  return keetab.data;
+}
+
+export async function giveTheKeetab(id) {
+  if (myCache.has(`hadiths-${id}`)) {
+    console.log("hadiths is in cache");
+  } else {
+    try{
+      const url = `https://api.hadith.sutanlab.id/books/${id}?range=1-5`;
+      const hadiths = await fetch(url, {
+        crossDomain:true,
+        method: 'GET',
+      });
+      myCache.set(`hadiths-${id}`, hadiths.json(), ttl);
+      console.log('hadiths is empty. now cached');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const hadiths = await myCache.get(`hadiths-${id}`);
+  return hadiths.data.hadiths;
 }
