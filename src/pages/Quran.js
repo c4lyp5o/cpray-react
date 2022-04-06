@@ -2,13 +2,21 @@ import { useState, useEffect } from 'react';
 import { getTheQuran, giveTheQuran, giveQuranAudio } from './getTimes';
 
 function Quran() {
-  
+
+  useEffect(() => {
+    async function Awwalun() {
+      setSurah(await getTheQuran());
+    }    
+    Awwalun();
+  }, []);
+
   const [intro, setIntro] = useState(true);
   const [surah, setSurah] = useState([]);
   const [search, setSearch] = useState("");
   const [quran, setQuran] = useState([]);
   const [display, setDisplay] = useState(false);
   const [audio, setAudio] = useState([]);
+  const [clicked, setClicked] = useState(0);
 
   useEffect(() => { document.title = "Al-Quran" }, []);
 
@@ -22,24 +30,23 @@ function Quran() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    await giveQuranAudio(search).then(data => { setAudio(data) });
+    await giveQuranAudio(search).then(data => { setAudio(data); console.log(data); });
     await giveTheQuran(search).then(data => {
       setDisplay(true);
       setIntro(false);
       setQuran(data);
+      console.log(audio);
     });
   }
 
   async function handleClick(event) {
-    if (surah.length > 113) {
-      setSearch(event.target.value);
+    setClicked(clicked + 1);
+    if (clicked === 0) {
       return;
-    } else if (surah.length === 0) {
-      await getTheQuran().then(data => {
-        setSurah(data);
-      setSearch(event.target.value);
-      });
+    } else if (clicked === 2) {
+      window.location.reload();
     }
+    setSearch(event.target.value);
   }
 
   function Surah() {
