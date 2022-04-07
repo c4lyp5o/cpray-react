@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getTheQuran, giveTheQuran, giveQuranAudio } from './getTimes';
+import { getTheQuran, giveTheQuran } from './js/Helper';
 
 function Quran() {
 
@@ -8,7 +8,6 @@ function Quran() {
   const [search, setSearch] = useState("");
   const [quran, setQuran] = useState([]);
   const [display, setDisplay] = useState(false);
-  const [audio, setAudio] = useState([]);
 
   useEffect(() => {
     async function Awwalun() {
@@ -27,36 +26,129 @@ function Quran() {
   }
 
   async function handleSubmit(event) {
-    event.preventDefault();
-    setAudio([]);
-    setQuran([]);
-    await giveQuranAudio(search).then(data => { setAudio(data) });
-    await giveTheQuran(search).then(data => {
-      setDisplay(true);
-      setIntro(false);
-      setQuran(data);
-    });
-  }
-
+      setQuran([]);
+      event.preventDefault();
+      await giveTheQuran(search).then(data => {
+        setQuran(data);
+        setIntro(false);
+        setDisplay(true);
+      });
+    }
+  
   async function handleClick(event) {
     setSearch(event.target.value);
+  }  
+
+  function QuranData(props) {
+      const { text, audio, translation, number } = props.data;
+      return (
+          <div className="quranAyats">
+              <h3 className="quranic">{text.arab} ({number.inSurah})</h3>
+              <p>{translation.id}</p>
+              <audio controls>
+              <source src={audio.primary} />
+              Your browser does not support the audio element.
+              </audio>
+          </div>
+      );
   }
 
-  function Surah() {
-    if (display) {
-      return (
-        <>
-          {quran.map((ayats, index) => (
-            <div className='quranAyats' key={index}>
-              <h3 className='quranic'>{ayats.text} ({index + 1})</h3>
-              <p>{ayats.translation}</p>
-              <audio key={index} controls><source src={audio[index].audio.primary} /></audio>
-              <br />
+  function Pagination({ data, RenderComponent, title, pageLimit, dataLimit }) {
+      const [pages] = useState(Math.round(data.length / dataLimit));
+      const [currentPage, setCurrentPage] = useState(1);
+
+      useEffect(() => {
+          window.scrollTo({ behavior: 'smooth', top: '0px' });
+        }, [currentPage]);
+    
+      function goToNextPage() {
+          setCurrentPage((page) => page + 1);
+      }
+    
+      function goToPreviousPage() {
+          setCurrentPage((page) => page - 1);
+      }
+    
+      function changePage(event) {
+          const pageNumber = Number(event.target.textContent);
+          setCurrentPage(pageNumber);
+      }
+    
+      const getPaginatedData = () => {
+          const startIndex = currentPage * dataLimit - dataLimit;
+          const endIndex = startIndex + dataLimit;
+          return data.slice(startIndex, endIndex);
+      };
+    
+      const getPaginationGroup = () => {
+          let start = Math.floor((currentPage - 1) / pageLimit) * pageLimit;
+          return new Array(pageLimit).fill().map((_, idx) => start + idx + 1);
+      };
+
+      function showPaginateNav() {
+        if (pages <= 1)
+          return null;
+        else if (pages > 1)
+          return (
+        <div className="grid">
+            <div />
+            <div className="pagination">
+            {/* previous button */}
+            <button 
+                onClick={goToPreviousPage}
+                className={`prev ${currentPage === 1 ? 'disabled' : ''}`}
+            >
+                Sebelumnya
+            </button>
+
+            {/* show page numbers */}
+            {getPaginationGroup().map((item, index) => (
+                <button
+                key={index}
+                onClick={changePage}
+                className={`paginationItem ${currentPage === item ? 'active' : null}`}
+                >
+                <span>{item}</span>
+                </button>
+            ))}
+
+            {/* next button */}
+            <button
+                onClick={goToNextPage}
+                className={`next ${currentPage === pages ? 'disabled' : ''}`}
+            >
+                Seterusnya
+            </button>
             </div>
+            <div />
+            </div>
+          );
+      }
+    
+      return (
+          <div>
+          {/* show the ayats, 10 posts at a time */}
+          <div className="dataContainer">
+          {getPaginatedData().map((d, idx) => (
+              <RenderComponent key={idx} data={d} />
           ))}
-        </>
+          </div>
+          <br /><br />
+          {showPaginateNav()}
+      </div>
       );
     }
+
+  function PaginateQuran() {
+    if (display)
+      return (
+          <Pagination
+          data={quran}
+          RenderComponent={QuranData}
+          pageLimit={5}
+          dataLimit={10}
+          />
+      );
   }
 
   return (
@@ -79,8 +171,9 @@ function Quran() {
           <h1>Al Quran</h1>
         </div>
       </div>
-      <div>{Surah(quran)}</div>
+      <div>{PaginateQuran()}</div>
       {TheIntro()}
+      <br /><br />
     </main>
   );
 }

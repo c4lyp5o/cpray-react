@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getTimes, timeCruncher, zoneDeterminer } from "./getTimes";
+import { getTimes, timeCruncher, zoneDeterminer } from "./js/Helper";
 
 function Home() {
 

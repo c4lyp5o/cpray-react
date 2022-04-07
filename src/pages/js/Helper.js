@@ -111,8 +111,23 @@ export async function getTheQuran() {
 }
 
 export async function giveTheQuran(surah) {
-  const quranAyat = await myCache.get('fullQuran');
-  return quranAyat[surah].verses;
+  surah++;
+  if (myCache.has(`quranAudio-${surah}`)) {
+    console.log("audio cache used");
+  } else {
+    try{
+      const audio = await fetch(`https://api.quran.sutanlab.id/surah/${surah}`, {
+        crossDomain:true,
+        method: 'GET',
+      });
+      myCache.set(`quranAudio-${surah}`, audio.json(), ttl);
+      console.log('caching audio');
+    } catch (error) {
+      console.log(error);
+    }
+  }  
+  const audio = await myCache.get(`quranAudio-${surah}`);
+  return audio.data.verses;
 }
 
 export async function giveQuranAudio(surah) {
