@@ -67,13 +67,13 @@ const zoneReplace = {
 
 export async function getTimes(search) {
   if (myCache.has(search)) {
-    console.log("using cache");
+    console.log("times cache used");
   } else {
     try {
       let response = await fetch(`https://www.e-solat.gov.my/index.php?r=esolatApi/takwimsolat&period=year&zone=${search}`);
       let data = await response.json();
       myCache.set(search, data.prayerTime, ttl);
-      console.log("fetching and caching");
+      console.log("caching times");
     } catch (error) {
       console.log(error);
     }
@@ -96,12 +96,12 @@ export function zoneDeterminer(zone) {
 
 export async function getTheQuran() {
   if (myCache.has('fullQuran')) {
-    console.log("quran is in cache");
+    console.log("quran cache used");
   } else {
     try{
       const quranAyat = await fetch('https://cdn.jsdelivr.net/npm/quran-json@3.1.2/dist/quran_id.json');
       myCache.set('fullQuran', quranAyat.json(), ttl);
-      console.log('Quran Ayat is empty. now cached');
+      console.log('caching quran');
     } catch (error) {
       console.log(error);
     }
@@ -118,7 +118,7 @@ export async function giveTheQuran(surah) {
 export async function giveQuranAudio(surah) {
   surah++;
   if (myCache.has(`quranAudio-${surah}`)) {
-    console.log("audio is in cache");
+    console.log("audio cache used");
   } else {
     try{
       const audio = await fetch(`https://api.quran.sutanlab.id/surah/${surah}`, {
@@ -126,6 +126,7 @@ export async function giveQuranAudio(surah) {
         method: 'GET',
       });
       myCache.set(`quranAudio-${surah}`, audio.json(), ttl);
+      console.log('caching audio');
     } catch (error) {
       console.log(error);
     }
@@ -136,7 +137,7 @@ export async function giveQuranAudio(surah) {
 
 export async function getTheKeetab() {
   if (myCache.has('keetab')) {
-    console.log("keetab is in cache");
+    console.log("keetab cache used");
   } else {
     try {
       const keetab = await fetch('https://api.hadith.sutanlab.id/books', {
@@ -144,6 +145,7 @@ export async function getTheKeetab() {
         method: 'GET',
       });
       myCache.set('keetab', keetab.json(), ttl);
+      console.log('caching keetab');
     } catch (error) {
       console.log(error);
     }
@@ -154,7 +156,7 @@ export async function getTheKeetab() {
 
 export async function giveTheKeetab(id) {
   if (myCache.has(`hadiths-${id}`)) {
-    console.log("hadiths is in cache");
+    console.log("hadiths cache used");
   } else {
     try{
       const url = `https://api.hadith.sutanlab.id/books/${id}?range=1-5`;
@@ -163,7 +165,7 @@ export async function giveTheKeetab(id) {
         method: 'GET',
       });
       myCache.set(`hadiths-${id}`, hadiths.json(), ttl);
-      console.log('hadiths is empty. now cached');
+      console.log('caching hadiths');
     } catch (error) {
       console.log(error);
     }

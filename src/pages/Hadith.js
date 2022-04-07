@@ -2,13 +2,6 @@ import { useState, useEffect } from 'react';
 import { getTheKeetab, giveTheKeetab } from './getTimes';
 
 function Hadith() {
-
-    useEffect(() => {
-        async function Awwalun() {
-          setKeetab(await getTheKeetab());
-        }    
-        Awwalun();
-      }, []);
   
   const [intro, setIntro] = useState(true);
   const [hadith, setHadith] = useState([]);
@@ -16,7 +9,13 @@ function Hadith() {
   const [keetab, setKeetab] = useState([]);
   const [display, setDisplay] = useState(false);
 
-  useEffect(() => { document.title = "Hadith" }, []);
+  useEffect(() => {
+    async function Awwalun() {
+      setKeetab(await getTheKeetab());
+    }    
+    Awwalun();
+    document.title = "Hadith";
+  }, []);
 
   function TheIntro() {
     if (intro === true) {
@@ -27,6 +26,7 @@ function Hadith() {
   }
 
   async function handleSubmit(event) {
+    setHadith([]);
     event.preventDefault();
     await giveTheKeetab(search).then(data => {
       setDisplay(true);
