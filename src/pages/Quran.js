@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getTheQuran, giveTheQuran } from './js/Helper';
+import { getTheQuran, giveTheQuran, Pagination } from './js/Helper';
 
 function Quran() {
 
@@ -20,7 +20,7 @@ function Quran() {
   function TheIntro() {
     if (intro === true) {
       return (
-        <p>Assalamualaikum</p>
+        <p className='centered'>Assalamualaikum</p>
       );
     }
   }
@@ -53,92 +53,6 @@ function Quran() {
       );
   }
 
-  function Pagination({ data, RenderComponent, title, pageLimit, dataLimit }) {
-      const [pages] = useState(Math.round(data.length / dataLimit));
-      const [currentPage, setCurrentPage] = useState(1);
-
-      useEffect(() => {
-          window.scrollTo({ behavior: 'smooth', top: '0px' });
-        }, [currentPage]);
-    
-      function goToNextPage() {
-          setCurrentPage((page) => page + 1);
-      }
-    
-      function goToPreviousPage() {
-          setCurrentPage((page) => page - 1);
-      }
-    
-      function changePage(event) {
-          const pageNumber = Number(event.target.textContent);
-          setCurrentPage(pageNumber);
-      }
-    
-      const getPaginatedData = () => {
-          const startIndex = currentPage * dataLimit - dataLimit;
-          const endIndex = startIndex + dataLimit;
-          return data.slice(startIndex, endIndex);
-      };
-    
-      const getPaginationGroup = () => {
-          let start = Math.floor((currentPage - 1) / pageLimit) * pageLimit;
-          return new Array(pageLimit).fill().map((_, idx) => start + idx + 1);
-      };
-
-      function showPaginateNav() {
-        if (pages <= 1)
-          return null;
-        else if (pages > 1)
-          return (
-        <div className="grid">
-            <div />
-            <div className="pagination">
-            {/* previous button */}
-            <button 
-                onClick={goToPreviousPage}
-                className={`prev ${currentPage === 1 ? 'disabled' : ''}`}
-            >
-                Sebelumnya
-            </button>
-
-            {/* show page numbers */}
-            {getPaginationGroup().map((item, index) => (
-                <button
-                key={index}
-                onClick={changePage}
-                className={`paginationItem ${currentPage === item ? 'active' : null}`}
-                >
-                <span>{item}</span>
-                </button>
-            ))}
-
-            {/* next button */}
-            <button
-                onClick={goToNextPage}
-                className={`next ${currentPage === pages ? 'disabled' : ''}`}
-            >
-                Seterusnya
-            </button>
-            </div>
-            <div />
-            </div>
-          );
-      }
-    
-      return (
-          <div>
-          {/* show the ayats, 10 posts at a time */}
-          <div className="dataContainer">
-          {getPaginatedData().map((d, idx) => (
-              <RenderComponent key={idx} data={d} />
-          ))}
-          </div>
-          <br /><br />
-          {showPaginateNav()}
-      </div>
-      );
-    }
-
   function PaginateQuran() {
     if (display)
       return (
@@ -156,7 +70,7 @@ function Quran() {
     <div className="grid">
         <div>
           <form onSubmit={handleSubmit}>
-            <select onClick={handleClick} id="surah" required="" name="surah">
+            <select className='damnbuttons' onClick={handleClick} id="surah" required="" name="surah">
               <option value="">Sila pilih surah...</option>
               {surah.map((thesurah, index) => (
                 <option key={index} value={index}>{thesurah.transliteration}</option>

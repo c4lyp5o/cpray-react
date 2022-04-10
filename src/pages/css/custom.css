@@ -5,8 +5,25 @@
     font-display: swap;
 }
 
+.radiolist {
+    list-style: none;
+    /* padding: 0; */
+}
+
 .centered {
     text-align: center;
+}
+
+.centeredNoSpace {
+    text-align: center;
+    /* margin-bottom: 0; */
+    line-height: 0.75;
+    /* display: inline-block; */
+    word-spacing: 0.1em;
+}
+
+.nospace {
+  line-height: 0;
 }
 
 .quranAyats {
@@ -86,3 +103,69 @@
     color: #999;
   }
 
+  .damnbuttons {
+    cursor: pointer;
+  }
+
+  #form {
+    background: rgba(0, 0, 0, 0.15); 
+    padding: 0.25rem; 
+    position: fixed; 
+    bottom: 5px; 
+    left: 145px;
+    right: 145px; 
+    display: flex; 
+    height: 3rem; 
+    box-sizing: border-box; 
+    backdrop-filter: blur(10px);
+}
+
+#form button {
+    /* background: #333;  */
+    border: none; 
+    /* padding: 0rem;  */
+    margin-left: 0.25rem;
+    margin-right: 0.25rem; 
+    border-radius: 10px; 
+    outline: none; 
+    height: 3rem; 
+    /* color: #fff; */
+}
+
+.messages-container {
+    position: fixed;
+    top: 75px;
+    bottom: 50px;
+    left: 10%;
+    right: 10%;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    /* backdrop-filter: blur(10px); */
+}
+
+.messages-list {
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    width: 90%;
+    height: 450px;
+    /* overflow-y: auto; */
+    /* overflow-x: hidden; */
+    /* box-sizing: border-box; */
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
+    /* white-space: initial; */
+    overflow: auto;
+    position: absolute;
+}
+
+.message-item {
+    list-style-type: none;
+    padding: 0;
+}

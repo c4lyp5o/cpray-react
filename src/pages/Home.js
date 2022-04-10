@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getTimes, timeCruncher, zoneDeterminer } from "./js/Helper";
+import { getTimes, timeCruncher, zoneDeterminer, Pagination } from "./js/Helper";
 
 function Home() {
 
@@ -11,6 +11,14 @@ function Home() {
   const [intro, setIntro] = useState(true);
 
   useEffect(() => { document.title = "Waktu Solat" }, []);
+
+  function TheIntro() {
+    if (intro === true) {
+      return (
+        <p className="centered">Assalamualaikum</p>
+      );
+    }
+  }
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -31,57 +39,80 @@ function Home() {
     setSearch(event.target.value);
   }
 
-  function TheIntro() {
-    if (intro === true) {
+  function TimesData(props) {
+    const { hijri, date, day, imsak, fajr, syuruk, dhuhr, asr, maghrib, isha } = props.data;
       return (
-        <p>Assalamualaikum</p>
+        <><div className="grid">
+          <div />
+          <div className="centeredNoSpace">
+            <div className='nospace'>
+              <h3 className="hijri">{hijri}, {date}</h3>
+              <h3>{day}</h3>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Imsak</th>
+                  <td>{imsak}</td>
+                </tr>
+                <tr>
+                  <th>Subuh</th>
+                  <td>{fajr}</td>
+                </tr>
+                <tr>
+                  <th>Syuruk</th>
+                  <td>{syuruk}</td>
+                </tr>
+                <tr>
+                  <th>Zuhur</th>
+                  <td>{dhuhr}</td>
+                </tr>
+                <tr>
+                  <th>Asar</th>
+                  <td>{asr}</td>
+                </tr>
+                <tr>
+                  <th>Maghrib</th>
+                  <td>{maghrib}</td>
+                </tr>
+                <tr>
+                  <th>Isha</th>
+                  <td>{isha}</td>
+                </tr>
+              </thead>
+            </table>
+          </div>
+          <div />
+        </div><br /></>
       );
-    }
   }
 
-  function displayTimes(times) {
-    if (display) {
+  function TimeSorter() {
+    if (display)
       return (
-        <>
-          <div className='centered'>
-            <h1>{zone}</h1>
-          </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Tarikh</th>
-              <td>Subuh</td>
-              <td>Zuhur</td>
-              <td>Asar</td>
-              <td>Maghrib</td>
-              <td>Isha'</td>
-            </tr>
-          </thead>
-          <tbody>
-            {times.map((time, index) => {
-              return (
-                <tr key={index}>
-                  <td>{time.date}</td>
-                  <td>{time.fajr}</td>
-                  <td>{time.dhuhr}</td>
-                  <td>{time.asr}</td>
-                  <td>{time.maghrib}</td>
-                  <td>{time.isha}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table></>
+          <Pagination
+          data={times}
+          RenderComponent={TimesData}
+          pageLimit={5}
+          dataLimit={10}
+          />
+      );
+  }
+
+  function TheZone() {
+    if (intro === false) {
+      return (
+        <h2 className="centered">{zone}</h2>
       );
     }
-  }
+  }  
 
   return (
     <main className="container">
       <div className="grid">
         <div>
           <form onSubmit={handleSubmit}>
-            <select onChange={handleChange} id="zone" required="" name="zone">
+            <select className='damnbuttons' onChange={handleChange} id="zone" required="" name="zone">
               <option value="">Sila pilih zon...</option>
               <optgroup label="Kedah">
                 <option value="kdh01">KOTA SETAR, POKOK SENA DAN KUBANG PASU</option>
@@ -179,8 +210,9 @@ function Home() {
           <h1>Waktu Solat</h1>
         </div>
       </div>
+      {TheZone()}
       {TheIntro()}
-      {displayTimes(times)}
+      <div>{TimeSorter()}</div>
     </main>
   );
 }
