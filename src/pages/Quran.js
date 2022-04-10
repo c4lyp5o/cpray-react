@@ -35,7 +35,7 @@ function Quran() {
       });
     }
   
-  async function handleClick(event) {
+  async function handleChange(event) {
     setSearch(event.target.value);
   }  
 
@@ -70,7 +70,7 @@ function Quran() {
     <div className="grid">
         <div>
           <form onSubmit={handleSubmit}>
-            <select className='damnbuttons' onClick={handleClick} id="surah" required="" name="surah">
+            <select className='damnbuttons' onChange={handleChange} id="surah" required="" name="surah">
               <option value="">Sila pilih surah...</option>
               {surah.map((thesurah, index) => (
                 <option key={index} value={index}>{thesurah.transliteration}</option>

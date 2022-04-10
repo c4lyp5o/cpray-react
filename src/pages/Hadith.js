@@ -35,7 +35,7 @@ function Hadith() {
     });
   }
 
-  async function handleClick(event) {
+  async function handleChange(event) {
     setSearch(event.target.value);
   }
 
@@ -43,7 +43,7 @@ function Hadith() {
     const { arab, id } = props.data;
     return (
         <div className="quranAyats">
-            {/* <h3 className="hadis">{arab}</h3> */}
+            <p className="hadis">{arab}</p>
             <p>{id}</p>
         </div>
     );
@@ -66,7 +66,7 @@ function PaginateHadith() {
     <div className="grid">
         <div>
           <form onSubmit={handleSubmit}>
-            <select className='damnbuttons' onClick={handleClick} id="keetab" required="" name="keetab">
+            <select className='damnbuttons' onChange={handleChange} id="keetab" required="" name="keetab">
               <option value="">Sila pilih kitab...</option>
               {keetab.map((solkeetab) => (
                 <option key={solkeetab.id} value={solkeetab.id}>{solkeetab.name}</option>
