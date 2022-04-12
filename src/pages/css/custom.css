@@ -7,7 +7,19 @@
 
 .radiolist {
     list-style: none;
+    margin-right: 10px;
+    margin-bottom: 50px;
     /* padding: 0; */
+}
+
+.radiolist img {
+    /* display: inline-block; */
+    border-radius: 20px;
+}
+
+.radiolist audio {
+    /* display: none; */
+    padding-left: 12px;
 }
 
 .centered {
@@ -133,36 +145,33 @@
 }
 
 .messages-container {
-    position: fixed;
-    top: 75px;
-    bottom: 50px;
-    left: 10%;
-    right: 10%;
-    background: rgba(0, 0, 0, 0.15);
-    padding: 0.25rem;
-    display: flex;
-    flex-direction: column;
+    /* position: relative; */
+    /* top: 75px; */
+    /* bottom: 50px; */
+    /* left: 10%; */
+    /* right: 10%; */
+    /* background: rgba(0, 0, 0, 0.941); */
+    /* padding: 0.25rem; */
+    /* display: flex; */
+    /* flex-direction: column; */
     align-items: center;
     justify-content: center;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     /* backdrop-filter: blur(10px); */
 }
 
 .messages-list {
-    /* display: flex; */
-    /* flex-direction: column; */
+    background-color: rgba(1, 0, 68, 0.892);
+    display: flex;
+    flex-direction: column;
     /* align-items: center; */
     /* justify-content: center; */
-    width: 90%;
-    height: 450px;
-    /* overflow-y: auto; */
-    /* overflow-x: hidden; */
-    /* box-sizing: border-box; */
-    /* overflow: hidden; */
-    /* text-overflow: ellipsis; */
-    /* white-space: initial; */
+    width: 100%;
+    height: 550px;
     overflow: auto;
-    position: absolute;
+    position: relative;
+    padding: 20px;
+    border-radius: 50px;
 }
 
 .message-item {

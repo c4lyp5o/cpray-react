@@ -2,7 +2,7 @@ function Radio() {
   return (
     <>
     <main className="container">
-    <div className="centered">
+    <div className="radio-centered">
     <ul>
         <li className="radiolist">
             <span className="radiotext">
@@ -11,6 +11,9 @@ function Radio() {
             </img>
             </a>
             </span>
+            <audio controls>
+                <source src="https://radioislamindonesia.com/rodja.mp3?_=2" />
+            </audio>
         </li>
         <li className="radiolist">
             <span className="radiotext">
@@ -18,6 +21,9 @@ function Radio() {
             <img class="cover" src="https://cdn.webrad.io/images/logos/radioonline-co-id/muslim.png" alt="Radio Muslim" height="66" width="96" />                
             </a>
             </span>
+            <audio controls>
+                <source src="https://cp.phpmystream.com/radioSSLnew/s/75" />
+            </audio>
         </li>
         <li class="radiolist">
             <span>
@@ -25,6 +31,9 @@ function Radio() {
             <img class="cover" src="https://cdn.webrad.io/images/logos/radioonline-co-id/bass-salatiga.png" alt="Radio Bass (Salatiga)" height="66" width="96" />
             </a>
             </span>
+            <audio controls>
+                <source src="http://live.bassfm.id/;" type='audio/mp3' />
+            </audio>
         </li>
     </ul>
     </div>

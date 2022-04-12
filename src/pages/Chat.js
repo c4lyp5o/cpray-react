@@ -11,10 +11,12 @@ const Chat = () => {
     
       const handleSendMessage = (e) => {
         e.preventDefault();
+        var chatDiv = document.getElementsByClassName('messages-list')[0];
         sendMessage(newMessage);
         setNewMessage("");
-        var chatDiv = document.getElementsByClassName('messages-list')[0]; //I assume you only have one chat box!
-        chatDiv.scrollTop = chatDiv.scrollHeight;
+        setTimeout(function(){
+          chatDiv.scrollTop = chatDiv.scrollHeight;
+        }, 150);
       };
     
       return (
@@ -36,7 +38,7 @@ const Chat = () => {
           <div className="form-div">
             <form id='form'>
                 <input type="text" placeholder="Type a message..." value={newMessage} onChange={handleNewMessageChange} />
-                <button className="damnbuttons" onClick={handleSendMessage} value='submit' role='submit'>Send</button>
+                <button className="damnbuttons" onClick={handleSendMessage} value='submit'>Send</button>
             </form>
             </div>
         </main>
